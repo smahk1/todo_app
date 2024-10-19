@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:todo_app/Components/button.dart';
+import 'package:todo_app/Components/button_menu.dart';
 import 'package:todo_app/Components/todo_tile.dart';
 
 class TodoPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class TodoPage extends StatefulWidget {
 class _TodoPageState extends State<TodoPage> {
   List todoList = [
     ["One", false],
-    ["Two", true]
+    ["Two", false]
   ];
 // Checkbox tapped
   void checkBoxChanged(bool? value, int index) {
@@ -39,6 +39,25 @@ class _TodoPageState extends State<TodoPage> {
         shadowColor: Colors.black.withOpacity(0.8),
       ),
       backgroundColor: Colors.yellow[200],
+      floatingActionButton: SizedBox(
+        width: 100,
+        height: 100,
+        child: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              ButtonMenu();
+            });
+          },
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          backgroundColor: Colors.yellow,
+          child: Icon(
+            Icons.add,
+            size: 70,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: ListView.builder(
         itemCount: todoList.length,
         itemBuilder: (context, index) {
