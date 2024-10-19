@@ -11,9 +11,18 @@ class TodoPage extends StatefulWidget {
   State<TodoPage> createState() => _TodoPageState();
 }
 
-void createContainer() {}
-
 class _TodoPageState extends State<TodoPage> {
+  List todoList = [
+    ["One", false],
+    ["Two", true]
+  ];
+// Checkbox tapped
+  void checkBoxChanged(bool? value, int index) {
+    setState(() {
+      todoList[index][1] = value!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +30,7 @@ class _TodoPageState extends State<TodoPage> {
         backgroundColor: Colors.yellow,
         title: Center(
           child: Text(
-            "To Do",
+            "List",
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -30,17 +39,15 @@ class _TodoPageState extends State<TodoPage> {
         shadowColor: Colors.black.withOpacity(0.8),
       ),
       backgroundColor: Colors.yellow[200],
-      body: ListView(
-        children: [
-          // Tiles for the list
-          TodoTile(
-            taskCheck: false,
-            taskName: "Tutorial Start",
-            onChanged: (p0) {},
-          ),
-          // Button
-          TodoButton(),
-        ],
+      body: ListView.builder(
+        itemCount: todoList.length,
+        itemBuilder: (context, index) {
+          // The index perameter always starts off at 1 and itterates as index++ with every item that is built by the builder.
+          return TodoTile(
+              taskName: todoList[index][0],
+              taskCheck: todoList[index][1],
+              onChanged: (value) => checkBoxChanged(value, index));
+        },
       ),
     );
   }
