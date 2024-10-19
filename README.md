@@ -1,6 +1,6 @@
 # todo_app
 
-A practive flutter project by smahk1
+A practice flutter project by smahk1
 
 ## What this app does
 -Allows the user to add or remove any task.
