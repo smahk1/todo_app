@@ -12,6 +12,8 @@ class TodoPage extends StatefulWidget {
 }
 
 class _TodoPageState extends State<TodoPage> {
+  final _controller = TextEditingController();
+
   List todoList = [
     ["One", false],
     ["Two", false]
@@ -23,6 +25,35 @@ class _TodoPageState extends State<TodoPage> {
     });
   }
 
+  // Saving the task
+  void saveNewTask() {
+    setState(() {
+      todoList.add([_controller.text, false]);
+      // Clear controller so no data remains in the text field
+      _controller.clear();
+      Navigator.of(context).pop();
+    });
+  }
+
+  // Add/Create a new task
+  void addTask() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ButtonMenu(
+            controller: _controller,
+            onSaved: saveNewTask,
+            onCancelled: () => Navigator.of(context).pop(),
+          );
+        });
+  }
+
+  void deleteTask(int index) {
+    setState(() {
+      todoList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +61,7 @@ class _TodoPageState extends State<TodoPage> {
         backgroundColor: Colors.yellow,
         title: Center(
           child: Text(
-            "List",
+            "To-do List",
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -44,16 +75,14 @@ class _TodoPageState extends State<TodoPage> {
         height: 100,
         child: FloatingActionButton(
           onPressed: () {
-            setState(() {
-              ButtonMenu();
-            });
+            addTask();
           },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
           backgroundColor: Colors.yellow,
           child: Icon(
             Icons.add,
-            size: 70,
+            size: 40,
             color: Colors.black,
           ),
         ),
@@ -63,9 +92,11 @@ class _TodoPageState extends State<TodoPage> {
         itemBuilder: (context, index) {
           // The index perameter always starts off at 1 and itterates as index++ with every item that is built by the builder.
           return TodoTile(
-              taskName: todoList[index][0],
-              taskCheck: todoList[index][1],
-              onChanged: (value) => checkBoxChanged(value, index));
+            taskName: todoList[index][0],
+            taskCheck: todoList[index][1],
+            onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask(index),
+          );
         },
       ),
     );
