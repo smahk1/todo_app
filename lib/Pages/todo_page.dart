@@ -71,8 +71,8 @@ class _TodoPageState extends State<TodoPage> {
       ),
       backgroundColor: Colors.yellow[200],
       floatingActionButton: SizedBox(
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         child: FloatingActionButton(
           onPressed: () {
             addTask();
